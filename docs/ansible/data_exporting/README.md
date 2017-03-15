@@ -17,12 +17,9 @@ mentioned above be both group and host specific):
 
 | Config filename  | Explanation
 | :--------------  | :------------
-| database_configs | information about the databases the probe will
-|                  | send data to
+| database_configs | information about the databases the probe will send data to
 | network_configs  | information used by wpa_supplicant to connect to WiFi
-| script_configs   | information about which script should be run, how often, and
-|                  | some other attributes. This file will be merged and
-|                  | converted to a JSON file on the probe
+| script_configs   | information about which script should be run, how often, and some other attributes. This file will be merged and converted to a JSON file on the probe
 
 WPA certificates are also saved in the certs/ directory, which is divided up into
 group_certs and host_certs. Certs saved as default will be saved in the

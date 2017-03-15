@@ -7,7 +7,7 @@ for SSH - before it can start a reverse SSH tunnel (see [The SSH tunnel
 procedure][]). Ansible will not be able to push its configuration without this
 tunnel.
 
-### Association
+### Identification
 In the first step, the probe sends a POST request to the server (the Probe's
 init script does this, see [Probe initialization][]), with it's newly
 generated SSH public key and its host key. It uses its wlan0 MAC address to
@@ -35,10 +35,8 @@ The server will return one of the following responses:
 | invalid-pub-key             | The pub key was invalid (in form)
 | invalid-host-key            | The host key was invalid (in form)
 | already-registered          | There already exists keys associated with this MAC
-| assocation-period-expired   | The identification period has expired and needs
-|                             | to be renewed through the web site
-| success                     | The keys were successfully registered/identified
-|                             | with the corresponding MAC address
+| assocation-period-expired   | The identification period has expired and needs to be renewed through the web site
+| success                     | The keys were successfully registered/identified with the corresponding MAC address
 
 When a probe is added through the web interface, it gets an initial 40 minutes
 of identification time. If no probe identifies with the corresponding MAC address
@@ -65,10 +63,8 @@ The server will return one of the following responses:
 | :-------------------------- | :-------------------------------------------- 
 | invalid-mac                 | The supplied MAC was invalid (in form)
 | unknown-mac                 | The MAC was valid, but is not in the database 
-| no-registered-key           | No SSH key has been associated with this MAC,
-|                             | and therefore no port will be sent            
-| [port]                      | Returns the queried port (a valid MAC was     
-|                             | received)                                     
+| no-registered-key           | No SSH key has been associated with this MAC, and therefore no port will be sent
+| [port]                      | Returns the queried port (a valid MAC was received)
 
 Wher the probe receives the network port, it will construct an SSH command with
 it. This command ill be wrapped in a systemd unit file that automatically restarts 

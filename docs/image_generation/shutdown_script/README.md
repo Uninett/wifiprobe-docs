@@ -1,41 +1,15 @@
-# Image generation
-A custom Linux ARM image is generated from a generic Kali Linux ARM image. To
-generate the image, you use the script `image_generation/generate_image.sh`.
-`generate_image.sh` takes five arguments:
+## The WiFi dongle shutdown script
+Because the Raspberry Pi has no off-switch, there's no easy way to shut it down
+when not connected to a monitor, and when a tty is not available. It is still
+important to shut it down properly though, to firstly avoid file corruption,
+but also to make sure the SSH tunnel to the server is closed properly.
 
-1. The generic Kali Linux ARM image. You must use either the Raspberry Pi 1
-or 2/3 version. Links to these images are in
-`image_generation/image_url.txt`.
-2. Driver for the WiFi dongle. This needs to be compiled for the correct
-kernel beforehand. Ansible can later update the driver, but the probe needs a
-preloaded driver so it can read the dongle's MAC address. See [Driver
-compilation][] for how to do that.
-3. The hostname/address of the web server the probe will connect to. This can
-either be a DNS record or an IP address, but make sure to include the port
-number if the web server listens on a port other than 80 (format:
-`127.0.0.1:12345`).
-4. The name of the unprivileged user the probe will start a connection to. If
-you used/are going to use the server setup script ([Website Setup][]), this
-user will be named `dummy`.
-5. The public ssh key of the user that will connect to the probes via
-Ansible -> SSH. This will most likely be the same user that runs the web
-server.
+To achieve this, the WiFi dongle itself is used as an off-switch. With the help
+of a udev script, the RPi will shut down when a USB device with a specific
+combination of IDs is *physically ejected*. Those IDs are set to the model ID
+and vendor ID of the D-Link DWA-171 WiFi dongle. For information on how to
+retrieve these IDs, and what the script looks like, consult the
+generate_image.sh script file.
 
-The script will copy the supplied image to a file with prefix `modified_`. The
-modified image differs from the original in that it contains the following
-components:
-
-- Probe init script & systemd unit file
-- Server user's pub ssh key & server's host key
-- Server's hostname/address 
-- WiFi driver (for MAC retrieval)
-- WiFi dongle shutdown script (see [The WiFi dongle shutdown script][])
-- Connection status script (used to show probe's connection status on the website)
-
-After the image has been generated, it can be burned to an SD card by doing
-something like:
-```
-dd if=modified_<original-image-name> of=/dev/sdf bs=1M conv=sync
-```
-Given `/dev/sdf` is the name of the SD card. This can be found by runing
-`lsblk`.
+So in essence: to shut the probe down, physically eject the WiFi dongle and
+wait until the green light shines constantly (ususally takes 10-15 seconds).

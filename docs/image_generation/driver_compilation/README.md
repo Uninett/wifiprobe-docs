@@ -1,41 +1,25 @@
-# Image generation
-A custom Linux ARM image is generated from a generic Kali Linux ARM image. To
-generate the image, you use the script `image_generation/generate_image.sh`.
-`generate_image.sh` takes five arguments:
+## Driver compilation
+The currently used WiFi dongle, "D-Link DWA-171", needs the rtl8812au driver to
+work on linux. The driver needs to be compiled for each kernel version. Because
+you need to compile the whole Linux kernel before compiling the driver, the
+compilation will be very slow on the Raspberry Pi (RPi). Therefore it is best
+to cross compile. To do this you can use the script located at 
+`ansible-probes/roles/driver/files/compile_driver.sh`.
 
-1. The generic Kali Linux ARM image. You must use either the Raspberry Pi 1
-or 2/3 version. Links to these images are in
-`image_generation/image_url.txt`.
-2. Driver for the WiFi dongle. This needs to be compiled for the correct
-kernel beforehand. Ansible can later update the driver, but the probe needs a
-preloaded driver so it can read the dongle's MAC address. See [Driver
-compilation][] for how to do that.
-3. The hostname/address of the web server the probe will connect to. This can
-either be a DNS record or an IP address, but make sure to include the port
-number if the web server listens on a port other than 80 (format:
-`127.0.0.1:12345`).
-4. The name of the unprivileged user the probe will start a connection to. If
-you used/are going to use the server setup script ([Website Setup][]), this
-user will be named `dummy`.
-5. The public ssh key of the user that will connect to the probes via
-Ansible -> SSH. This will most likely be the same user that runs the web
-server.
+This script will download the required cross compilation toolchain, collect the
+required files from a running RPi and compile the WiFi driver for it. It needs
+the following arguments:
 
-The script will copy the supplied image to a file with prefix `modified_`. The
-modified image differs from the original in that it contains the following
-components:
+1. The address of the RPi running the kernel version you want to compile the
+ driver for. This will be the same address as the one you use to SSH into it,
+so either a DNS record or IP address.
+2. The kernel version the RPi is running. This can be retrieved by running
+ `uname -r` on the RPi itself. The output it gives should be the argument.
+3. The location where you want the script to save the compiled driver.
 
-- Probe init script & systemd unit file
-- Server user's pub ssh key & server's host key
-- Server's hostname/address 
-- WiFi driver (for MAC retrieval)
-- WiFi dongle shutdown script (see [The WiFi dongle shutdown script][])
-- Connection status script (used to show probe's connection status on the website)
+Do note that the compilation can take some time. On my (average) laptop it
+takes about 1 hour.
 
-After the image has been generated, it can be burned to an SD card by doing
-something like:
-```
-dd if=modified_<original-image-name> of=/dev/sdf bs=1M conv=sync
-```
-Given `/dev/sdf` is the name of the SD card. This can be found by runing
-`lsblk`.
+Also, there should already be a compiled driver for the 4.1.9 (4.1.9-v7 for
+rpi2/3) kernel version in the image_generation directory. So if that is the 
+kernel version being used, you can just use that instead of compiling a new one.
