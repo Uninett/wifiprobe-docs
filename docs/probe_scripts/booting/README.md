@@ -1,5 +1,5 @@
 ## Booting the probe
-After being shutdown as described in [The WiFi dongle shutdown script](wifiprobe-docs/docs/image_generation/shutdown_script/README.md), the
+After being shutdown as described in [The WiFi dongle shutdown script](../../image_generation/shutdown_script/README.md), the
 probe will automatically begin measuring. The WiFi dongle must logically
 be connected, but an ethernet cable can also be connected if desired. This
 can be useful as a safe-guard if e.g. an erroneous config is pushed, which

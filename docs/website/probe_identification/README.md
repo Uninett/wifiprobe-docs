@@ -8,7 +8,7 @@ push its configuration without this tunnel.
 
 ### Identification
 In the first step, the probe sends a POST request to the server (the Probe's
-init script does this, see [Probe initialization](wifiprobe-docs/docs/initialization/README.md)), with it's newly
+init script does this, see [Probe initialization](../../initialization/README.md)), with it's newly
 generated SSH public key and its host key. It uses its wlan0 MAC address to
 identify itself. If a probe with the attached MAC address exists in the
 database (i.e. has been added through the web interface) and has not already
