@@ -24,7 +24,7 @@ For regular users:
       search instance
 - Follow link to see data in Kibana
 
-For probes (see [Probe association API][]):
+For probes (see [Probe identification API](docs/website/probe_identification/README.md)):
 
 - Register their public SSH key and host key
 - Receive a port for SSH tunnel

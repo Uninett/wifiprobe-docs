@@ -9,13 +9,13 @@ or 2/3 version. Links to these images are in
 2. Driver for the WiFi dongle. This needs to be compiled for the correct
 kernel beforehand. Ansible can later update the driver, but the probe needs a
 preloaded driver so it can read the dongle's MAC address. See [Driver
-compilation][] for how to do that.
+compilation](docs/image_generation/driver_compilation/README.md) for how to do that.
 3. The hostname/address of the web server the probe will connect to. This can
 either be a DNS record or an IP address, but make sure to include the port
 number if the web server listens on a port other than 80 (format:
 `127.0.0.1:12345`).
 4. The name of the unprivileged user the probe will start a connection to. If
-you used/are going to use the server setup script ([Website Setup][]), this
+you used/are going to use the server setup script ([Website Setup](docs/website/setup/README.md)), this
 user will be named `dummy`.
 5. The public ssh key of the user that will connect to the probes via
 Ansible -> SSH. This will most likely be the same user that runs the web
@@ -29,7 +29,7 @@ components:
 - Server user's pub ssh key & server's host key
 - Server's hostname/address 
 - WiFi driver (for MAC retrieval)
-- WiFi dongle shutdown script (see [The WiFi dongle shutdown script][])
+- WiFi dongle shutdown script (see [The WiFi dongle shutdown script](docs/image_generation/shutdown_script/README.md)
 - Connection status script (used to show probe's connection status on the website)
 
 After the image has been generated, it can be burned to an SD card by doing

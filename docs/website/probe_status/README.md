@@ -2,10 +2,10 @@
 After adding a probe through the web interface, three statuses will appear (see
 image in presentation mentioned in introduction, or just log in to the website).
 
-The first status is for association. It will be green if the probe has been
-associated, i.e. has sent it's SSH key and host key. It will be yellow if it
-has not been associated and the server is waiting for association. It will be
-red if the association time has expired.
+The first status is for identification. It will be green if the probe has been
+identified, i.e. has sent it's SSH key and host key. It will be yellow if it
+has not been identified and the server is waiting for identification. It will be
+red if the identification period has expired.
 
 The second status show whether the probe is connected to the server, i.e. there
 exists an SSH tunnel at the port designated to the probe. It will also show

@@ -3,13 +3,12 @@ New probes must identify themselves to the web server before it will push Ansibl
 configs to them. This is done in a two step process. The main reason for this
 process is that probes will most likely be behind NAT, and must therefore
 send the server keys - and the server must send the probe an available port
-for SSH - before it can start a reverse SSH tunnel (see [The SSH tunnel
-procedure][]). Ansible will not be able to push its configuration without this
-tunnel.
+for SSH - before it can start a reverse SSH tunnel. Ansible will not be able to
+push its configuration without this tunnel.
 
 ### Identification
 In the first step, the probe sends a POST request to the server (the Probe's
-init script does this, see [Probe initialization][]), with it's newly
+init script does this, see [Probe initialization](docs/initialization/README.md)), with it's newly
 generated SSH public key and its host key. It uses its wlan0 MAC address to
 identify itself. If a probe with the attached MAC address exists in the
 database (i.e. has been added through the web interface) and has not already
