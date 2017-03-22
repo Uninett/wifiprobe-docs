@@ -1,0 +1,74 @@
+# Source used with https://www.websequencediagrams.com/
+
+title Probe Setup Sequence
+
+participant User
+participant Server
+participant Probe
+participant Database
+
+User->Server: Log in
+User->+Server: Download image
+Server-->-User: Probe image
+
+User->User: Burn image to SD card
+activate User
+deactivate User
+
+User->+Probe: Insert SD card into probe (RPi) and power it up
+
+note right of Probe: Start init script at boot
+
+Probe->Probe: Install programs,\nread MAC, generate SSH keys ...
+activate Probe
+deactivate Probe
+
+User->Server: Register probe by providing\nMAC & network credentials\nfor network to probe
+note left of Server: 40 minute identification period begins
+note left of User: NOTE: Registration can also be\ndone before burning image
+
+Probe->Server: POST /register_key\nmac=<mac>\npub_key=<key>\nhost_key=<key>
+
+Server->Server: Save keys & associate\nthem with <mac>, & add key to\nauthorized_keys for dummy user
+activate Server
+deactivate Server
+
+Server-->Probe: success
+note right of Probe: Success signal received, so\ncontinue by querying for port
+
+Probe->Server: GET /get_port\?mac=<mac>\n
+Server-->Probe: <ssh port>
+note right of Probe: Use the ssh port to generate\nan SSH command
+deactivate Probe
+
+Probe->Server: Initiate reverse SSH connection\nto dummy user
+
+Server->User: Show in UI that probe\nhas been identified
+
+User->+Server: Click "push configuration" buton
+note left of User: NOTE: Will update all identified\nprobes for this user. Must be done\nat least once
+
+Server->Probe: Use reverse SSH connection\nto connect to probe &\nrun Ansible playbook for\nsetting up probe
+Probe-->Server: Ansible done
+deactivate Server
+
+User->Probe: Power off probe by ejecting WiFi dongle
+User->User: Move probe to probing location
+activate User
+deactivate User
+
+User->+Probe: Power on probe
+Probe->Server: Initiate reverse SSH connection\nto dummy user
+note right of Probe: Start control program\n(done on each boot)
+
+loop
+    Probe->Probe: Run probing scripts
+    activate Probe
+    deactivate Probe
+    Probe->Database: Send results\n(using Server as a proxy via\nthe SSH connection)
+    Database-->Probe: Results successfully received\n(also received through proxy)
+end
+
+User->Server: Log in & click on probe name
+Server-->User: Redirect user to database\ninterface (Kibana)
+User->Database: Look at visualizations of received data

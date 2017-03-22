@@ -1,6 +1,6 @@
 # Summary
 
-* [Home](README.md)
+* [Overview](README.md)
 * [Documentation](docs/README.md)
   * [Image generation](docs/image_generation/README.md)
     * [Driver compilation](docs/image_generation/driver_compilation/README.md)
