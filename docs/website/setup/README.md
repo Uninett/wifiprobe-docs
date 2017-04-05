@@ -19,6 +19,13 @@ is does requires root priveliges). The script does the following tasks:
 - Make a config file with the location of the website's SQL database
 - Make a config file with the location of Ansible certificate dir
 
+The files settings.py and secret_settings.py in the project directory must also
+be created by copying from their corresponding example files and making
+required changes.
+
+There's also a lighttpd configuration file in the project directory that can be
+used. The paths in the config will then need to be changed.
+
 ### Default user
 When the database is first made, an admin user is automatically added. This
 user must then add other users. At the moment it's not possible to make admin
