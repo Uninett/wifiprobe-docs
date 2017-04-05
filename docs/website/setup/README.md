@@ -26,7 +26,13 @@ required changes.
 There's also a lighttpd configuration file in the project directory that can be
 used. The paths in the config will then need to be changed.
 
-Furthermore, the files `roles/common/vars/main.yml`, `roles/common/vars/vault.yml` and `group_vars/all/locations.yml` in the **ansible-project** directory will need to be created. See their respective example files for what the content should look like.
+Furthermore, the files `roles/common/vars/main.yml`, `roles/common/vars/vault.yml`
+and `group_vars/all/locations.yml` in the **ansible-project** directory will need
+to be created. See their respective example files for what the content should
+look like. NB: It's very important that they have the .yml-extension, even
+thought the example versions don't have this. This is because ansible reads
+the files in alphabetical order, so if the .yml-extension is omitted, the
+example files will be read last and overwrite the proper config.
 
 ### Default user
 When the database is first made, an admin user is automatically added. This
