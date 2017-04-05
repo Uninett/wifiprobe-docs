@@ -8,3 +8,6 @@ Ansible-friendly YAML config files, and then Ansible is run.
 All file and directory references will be relative to the Ansible project
 directory (i.e. the ansible-probes directory in the root directory of the
 website project).
+
+When setting up Ansible for the first time, some configs need to be changed.
+See [Website Setup](../website/setup/README.md) for details.
